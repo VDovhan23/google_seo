@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $user_id
  * @property string $name
+ * @property string $keywords
  * @property string|null $address
  * @property int $position
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -17,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Site whereAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Site whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Site whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Site whereKeywords($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Site whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Site wherePosition($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Site whereUpdatedAt($value)

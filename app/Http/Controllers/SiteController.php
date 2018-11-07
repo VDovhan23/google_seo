@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Site;
 use Illuminate\Support\Facades\Auth;
-use Curl\Curl;
+use JanDrda\LaravelGoogleCustomSearchEngine\LaravelGoogleCustomSearchEngine;
 
 class SiteController extends Controller
 {
@@ -43,48 +43,15 @@ class SiteController extends Controller
         $site = new \App\Models\Site;
         $site->user_id = Auth::id();
         $site->name = $request->get('site_name');
-//
-        //підготовка і форматування нормального урла
         $site->site_address = $request->get('site_address');
-
+//
         $this->url = $site->site_address;
         $site->keywords = $request->get('keywords');
         $this->keywords = $site->keywords;
-
+//
         $url = $this->url;
         $site->site_address = $this->url_format($this->url);
         $keywords = $this->keywords;
-        //розібратися з пошуковими запитами або знайти API
-        $homepage = file_get_contents('https://www.google.com.ua/search?num=50&hl=uk&ei=4W_hW4y1C9LRrgTHvLaQDQ&q=mdm+lock+%D1%87%D1%82%D0%BE+%D1%8D%D1%82%D0%BE&oq=mdm+lock+%D1%87%D1%82%D0%BE+%D1%8D%D1%82%D0%BE&gs_l=psy-ab.12...0.0.0.16763.0.0.0.0.0.0.0.0..0.0....0...1c..64.psy-ab..0.0.0....0.A_wgcSvk7-M');
-
-        $str = str_get_html($homepage);
-        $site_urls = $str->find('.s .hJND5c');
-
-
-//        echo  $site->site_address;
-
-        $i = 1;
-        foreach ($site_urls as $site_url){
-             $site_url=  $site_url->plaintext;
-             echo $site_url;
-            echo "<br>";
-
-            if (count(explode($site->site_address, $site_url)) <= 1) {
-                $i ++;
-                echo "no";
-                echo "<br>";
-            }
-            else {
-                $this->position = $i;
-                echo "yes";
-                echo "<br>";
-            }
-////            echo count(explode($site->site_address ,$site_url))
-////            echo "<br>";
-//
-        }
-        echo $this->position;
-//        dd($site);
     }
 
     public function url_format($url)
@@ -114,8 +81,6 @@ class SiteController extends Controller
 //            echo "<br>";
 //            echo "<br>";
 //        }
-
-
     }
 
     /**
