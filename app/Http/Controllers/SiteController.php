@@ -43,15 +43,21 @@ class SiteController extends Controller
         $site = new \App\Models\Site;
         $site->user_id = Auth::id();
         $site->name = $request->get('site_name');
-        $site->site_address = $request->get('site_address');
-//
-        $this->url = $site->site_address;
+        $site->address = $request->get('site_address');
         $site->keywords = $request->get('keywords');
         $this->keywords = $site->keywords;
-//
-        $url = $this->url;
-        $site->site_address = $this->url_format($this->url);
+
+        $this->url=$site->address;
+        $site->address = $this->url_format($this->url);
+        $this->url= $this->url_format($this->url);
+        $site->address =$this->url;
         $keywords = $this->keywords;
+//        $site->position = 1; /// для перевірки
+//        pre($site->address);
+//        pre($site->keywords);
+//////        $site->save();
+        $info = $this->site_info($site->address, $site->keywords);
+//        pre($info);
     }
 
     public function url_format($url)
@@ -59,28 +65,39 @@ class SiteController extends Controller
         $url = $this->url;
         $https_pos = preg_match('/^https.+/',  $url);
         $http_pos = preg_match('/^http.+/',  $url);
-        if (!$https_pos OR !$http_pos){
+
+        if (!$https_pos AND !$http_pos){
             $url = 'https://' . $url;
         }
         return($url);
     }
 
 
-    public function parser_position($url, $keywords)
+    public function site_info($url, $keywords)
     {
-//        $url = $this->url;
-//        $keywords = $this->keywords;
-//        //розібратися з пошуковими запитами або знайти API
-//        $homepage = file_get_contents('https://www.google.com.ua/search?num=50&as_qdr=all&biw=1224&bih=938&ei=H1vhW-HkNdHLsAH9qrCADQ&q=iactivate&oq=iactivate&gs_l=psy-ab.3..35i39k1l2j0i203k1l8.1471682.1471970.0.1473113.2.2.0.0.0.0.127.248.0j2.2.0....0...1c.1.64.psy-ab..0.2.247...0.0.StEV4MsU2TU');
-//
-//        $str = str_get_html($homepage);
-//        $site_urls = $str->find('.s .hJND5c');
-//
-//        foreach ($site_urls as $site){
-//            echo $site;
-//            echo "<br>";
-//            echo "<br>";
-//        }
+        $keywords = $this->keywords;
+        $url = $this->url;
+        $google = new LaravelGoogleCustomSearchEngine();
+        $parameters = array(
+            'start' => 1, // start from the 10th results,
+            'num' => 10 // number of results to get, 10 is maximum and also default value
+        );
+        pre($keywords);
+        $info = array();
+        pre($url);
+        $results = $google->getResults($keywords, $parameters);
+
+        foreach ($results as $k=>$v){
+            pre($v->link);
+
+            if ($url == $v->link OR $url.'/' == $v->link){
+                $info['position'] = $k+1;
+            }
+        }
+        pre($info);
+//        $results = $google->getResults("iactavate");
+        pre ($results);
+//        return($info);
     }
 
     /**
