@@ -79,7 +79,7 @@ class SiteController extends Controller
         $url = $this->url;
         $google = new LaravelGoogleCustomSearchEngine();
         $parameters = array(
-            'start' => 1, // start from the 10th results,
+            'start' => 10, // start from the 10th results,
             'num' => 10 // number of results to get, 10 is maximum and also default value
         );
         pre($keywords);
@@ -89,13 +89,11 @@ class SiteController extends Controller
 
         foreach ($results as $k=>$v){
             pre($v->link);
-
             if ($url == $v->link OR $url.'/' == $v->link){
                 $info['position'] = $k+1;
             }
         }
         pre($info);
-//        $results = $google->getResults("iactavate");
         pre ($results);
 //        return($info);
     }
