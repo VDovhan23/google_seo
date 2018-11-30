@@ -8,9 +8,6 @@ use JanDrda\LaravelGoogleCustomSearchEngine\LaravelGoogleCustomSearchEngine;
 
 class SiteController extends Controller
 {
-    public $url;
-    public $keywords;
-    public $position;
     /**
      * Display a listing of the resource.
      *
@@ -41,31 +38,27 @@ class SiteController extends Controller
     public function store(Request $request)
     {
         $site = new \App\Models\Site;
+
         $site->user_id = Auth::id();
         $site->name = $request->get('site_name');
         $site->address = $request->get('site_address');
         $site->keywords = $request->get('keywords');
-        $this->keywords = $site->keywords;
+        $site->depth = $request->get('depth');
+        $site->frequency = $request->get('frequency');
 
-        $this->url=$site->address;
-        $site->address = $this->url_format($this->url);
-        $this->url= $this->url_format($this->url);
-        $site->address =$this->url;
-        $keywords = $this->keywords;
-//        $site->position = 1; /// для перевірки
-//        pre($site->address);
-//        pre($site->keywords);
-//////        $site->save();
-        $info = $this->site_info($site->address, $site->keywords);
-//        pre($info);
+        $site->address = $this->url_format($site->address);
+        ///
+        $info = $this->site_info($site->address, $site->keywords, $site->depth); // +2 params
+        $site->position = $info; /// для перевірки
+        pre($site);
+
+//        $site->save();
     }
 
     public function url_format($url)
     {
-        $url = $this->url;
         $https_pos = preg_match('/^https.+/',  $url);
         $http_pos = preg_match('/^http.+/',  $url);
-
         if (!$https_pos AND !$http_pos){
             $url = 'https://' . $url;
         }
@@ -73,29 +66,33 @@ class SiteController extends Controller
     }
 
 
-    public function site_info($url, $keywords)
+    public function site_info($url, $keyword, $depth)
     {
-        $keywords = $this->keywords;
-        $url = $this->url;
+        $search_results= array();
         $google = new LaravelGoogleCustomSearchEngine();
-        $parameters = array(
-            'start' => 10, // start from the 10th results,
-            'num' => 10 // number of results to get, 10 is maximum and also default value
-        );
-        pre($keywords);
         $info = array();
-        pre($url);
-        $results = $google->getResults($keywords, $parameters);
-
-        foreach ($results as $k=>$v){
-            pre($v->link);
-            if ($url == $v->link OR $url.'/' == $v->link){
+        $i = 1;
+        while ($i <= $depth) {
+            $parameters = array(
+                'start' =>$i, // start from the 10th results,
+                'num' => 10 // number of results to get, 10 is maximum and also default value
+            );
+            $results = $google->getResults($keyword, $parameters);
+            foreach ($results as $result){
+                array_push($search_results, $result);
+            }
+            $i= $i+10;
+        }
+        pre($search_results);
+        $pattern = '/^'.$url.'/';
+        foreach ($search_results as $k=>$v){
+//            if ($url == $v->link OR $url.'/' == $v->link){ // bad
+            if (preg_match($pattern, $v->link)){
                 $info['position'] = $k+1;
             }
         }
         pre($info);
-        pre ($results);
-//        return($info);
+//        return $info['position'];
     }
 
     /**

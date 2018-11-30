@@ -19,6 +19,8 @@ class CreateSitesTable extends Migration
             $table->text('name');
             $table->text('keywords');
             $table->text('address')->nullable();
+            $table->unsignedInteger('depth')->default(5);
+            $table->unsignedInteger('frequency')->default(7);
             $table->unsignedInteger('position');
             $table->timestamps();
         });
