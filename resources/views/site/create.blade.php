@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="site_address">URL: </label>
+                <label for="site_address">URL коли мишка буде на цьому інпуті має появлятися пояснення про формат адреси сайту: </label>
                 <input type="text" class="form-control" name="site_address" id="site_address" placeholder="Enter site address">
             </div>
             <div class="submit_button" style="margin-top: 10px">

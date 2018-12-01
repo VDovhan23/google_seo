@@ -37,33 +37,34 @@ class SiteController extends Controller
      */
     public function store(Request $request)
     {
-        $site = new \App\Models\Site;
 
+        //ВАЛІДАЦІЯ
+        $site = new \App\Models\Site;
         $site->user_id = Auth::id();
-        $site->name = $request->get('site_name');
+        $site->name = $request->get('site_name'); //unique
         $site->address = $request->get('site_address');
         $site->keywords = $request->get('keywords');
         $site->depth = $request->get('depth');
         $site->frequency = $request->get('frequency');
-
-        $site->address = $this->url_format($site->address);
-        ///
         $info = $this->site_info($site->address, $site->keywords, $site->depth); // +2 params
         $site->position = $info; /// для перевірки
         pre($site);
 
-//        $site->save();
+//        $record=\App\Site::where();
+
+        $site->save();
+        return redirect('sites')->with('success', 'Information has been added');
     }
 
-    public function url_format($url)
-    {
-        $https_pos = preg_match('/^https.+/',  $url);
-        $http_pos = preg_match('/^http.+/',  $url);
-        if (!$https_pos AND !$http_pos){
-            $url = 'https://' . $url;
-        }
-        return($url);
-    }
+//    public function url_format($url)
+//    {
+//        $https_pos = preg_match('/^https.+/',  $url);
+//        $http_pos = preg_match('/^http.+/',  $url);
+//        if (!$https_pos AND !$http_pos){
+//            $url = 'https://' . $url;
+//        }
+//        return($url);
+//    }
 
 
     public function site_info($url, $keyword, $depth)
@@ -83,16 +84,16 @@ class SiteController extends Controller
             }
             $i= $i+10;
         }
-        pre($search_results);
-        $pattern = '/^'.$url.'/';
+//        pre($search_results);
+
         foreach ($search_results as $k=>$v){
-//            if ($url == $v->link OR $url.'/' == $v->link){ // bad
-            if (preg_match($pattern, $v->link)){
+            if (preg_match('|'.$url.'|', $v->link)) { // зробити гарну регулярку для всіх випадків (http://, https://, http://www., https://www. ... )
                 $info['position'] = $k+1;
             }
         }
-        pre($info);
-//        return $info['position'];
+//        pre($info);
+//        exit;
+        return $info['position'];
     }
 
     /**
@@ -137,6 +138,8 @@ class SiteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $site = \App\Models\Site::find($id);
+        $site->delete();
+        return redirect('sites')->with('success','Information has been  deleted');
     }
 }
