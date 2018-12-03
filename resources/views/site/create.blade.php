@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
 @section('content')
-    <div class="container">
+    <div class="container mt-4">
         <h2>Fill the form</h2>
         <form method="post" action="{{url('sites')}}" enctype="multipart/form-data">
             @csrf

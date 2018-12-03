@@ -1,7 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
 @section('content')
-<div class="container">
     @if (\Session::has('success'))
         <div class="alert alert-success">
             <p>{{ \Session::get('success') }}</p>
@@ -53,5 +52,5 @@
         @endforeach
         </tbody>
     </table>
-</div>
+
 @endsection
