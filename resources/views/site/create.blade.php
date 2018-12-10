@@ -6,7 +6,7 @@
         <form method="post" action="{{url('sites')}}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
-                <label for="site_name">Progect name</label>
+                <label for="site_name">Project name</label>
                 <input type="text" class="form-control" name="site_name" id="site_name"  placeholder="Enter site name">
             </div>
             {{--має бути textaria, або ж зробити штуку яка додає інпути.--}}
@@ -47,8 +47,9 @@
                 <input type="text" class="form-control" name="site_address" id="site_address" placeholder="Enter site address">
             </div>
             <div class="submit_button" style="margin-top: 10px">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary submit_site">Submit</button>
             </div>
         </form>
     </div>
+
 @endsection

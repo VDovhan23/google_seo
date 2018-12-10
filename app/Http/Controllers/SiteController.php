@@ -41,16 +41,16 @@ class SiteController extends Controller
         //ВАЛІДАЦІЯ
         $site = new \App\Models\Site;
         $site->user_id = Auth::id();
-        $site->name = $request->get('site_name'); //unique
+        $site->name = $request->get('site_name');
         $site->address = $request->get('site_address');
         $site->keywords = $request->get('keywords');
         $site->depth = $request->get('depth');
         $site->frequency = $request->get('frequency');
-        $info = $this->site_info($site->address, $site->keywords, $site->depth); // +2 params
-        $site->position = $info; /// для перевірки
+        $info = $this->site_info($site->address, $site->keywords, $site->depth);
+        $site->position = $info;
         pre($site);
+        exit;
 
-//        $record=\App\Site::where();
 
         $site->save();
         return redirect('sites')->with('success', 'Information has been added');
@@ -84,14 +84,14 @@ class SiteController extends Controller
             }
             $i= $i+10;
         }
-//        pre($search_results);
+       pre($search_results);
 
         foreach ($search_results as $k=>$v){
             if (preg_match('|'.$url.'|', $v->link)) { // зробити гарну регулярку для всіх випадків (http://, https://, http://www., https://www. ... )
                 $info['position'] = $k+1;
             }
         }
-//        pre($info);
+       pre($info);
 //        exit;
         return $info['position'];
     }
@@ -115,7 +115,8 @@ class SiteController extends Controller
      */
     public function edit($id)
     {
-        //
+        $site = \App\Models\Site::find($id);
+        return view('site\edit',compact('site','id'));
     }
 
     /**
@@ -127,7 +128,9 @@ class SiteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $site = \App\Models\Site::find($id);
+        pre($site);
+        return redirect('sites')->with('success','Information has been Updated');
     }
 
     /**
