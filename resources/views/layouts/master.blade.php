@@ -14,8 +14,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
    {{--CSS--}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    @yield('my_css')
-
+    {{-- <link href="{{ asset('css/create.css') }}" rel="stylesheet"> --}}
 
     <!-- Theme style -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -26,11 +25,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script>
+            window.auth_id = {!! auth()->user()->id !!}
+        </script>
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 <body class="hold-transition sidebar-mini">
-<div class="wrapper">
+
+<div class="wrapper" id="app">
 
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
@@ -74,9 +77,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <img src="/img/profile.png" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-                    <a href="#" class="d-block">{{Auth::user()->name}}</a>
+
+                    <router-link to="/profile" class="d-block">{{Auth::user()->name}}
                 </div>
-            </div>
+            </div
 
             <!-- Sidebar Menu -->
             <nav class="mt-2">
@@ -84,45 +88,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                     <li class="nav-item">
-                    <a href="{{url('sites')}}" class="nav-link">
+                    <router-link to="/dashboard" class="nav-link">
                             <i class="fas fa-tachometer-alt"></i>
                             <p>
                                 Dashboard
-                                {{--<span class="right badge badge-danger">New</span>--}}
+                                <span class="right badge badge-danger red">New</span>
                             </p>
                         </a>
                     </li>
+
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-user"></i>
+                            <router-link to="/logout" class="nav-link">
+                                <i class="fas fa-power-off"></i>
                             <p>
-                                Profile
-                                {{--<span class="right badge badge-danger">New</span>--}}
+                                Logout
                             </p>
                         </a>
                     </li>
-                    <li class="nav-item has-treeview menu-open">
-                        <a href="#" class="nav-link">
-                            <p>
-                                Starter Pages
-                                <i class="right fa fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>Active Page</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>Inactive Page</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
@@ -134,9 +117,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content-wrapper">
 
         <!-- Main content -->
-        <div class="content" style="min-height: 750px">
-            @yield('content')
-        </div>
+
+            <router-view></router-view>
+            {{-- @yield('content') --}}
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
@@ -152,6 +135,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- /.control-sidebar -->
 
     <!-- Main Footer -->
+
     <footer class="main-footer">
         <!-- To the right -->
         <div class="float-right d-none d-sm-inline">
@@ -159,6 +143,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
         <!-- Default to the left -->
         <strong>Copyright &copy; 2014-2018 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+
     </footer>
 </div>
 <!-- ./wrapper -->
