@@ -16,12 +16,12 @@ class CreateSitesTable extends Migration
         Schema::create('sites', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->text('name');
+            $table->text('domain');
             $table->text('keywords');
-            $table->text('address')->nullable();
             $table->unsignedInteger('depth')->default(5);
             $table->unsignedInteger('frequency')->default(7);
-            $table->unsignedInteger('position');
+            $table->text('position');
+            $table->text('date');
             $table->timestamps();
         });
     }

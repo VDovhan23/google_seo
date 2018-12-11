@@ -14,6 +14,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
    {{--CSS--}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('my_css')
+
+
     <!-- Theme style -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -21,6 +24,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -79,7 +84,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                    <a href="{{url('sites')}}" class="nav-link">
                             <i class="fas fa-tachometer-alt"></i>
                             <p>
                                 Dashboard
