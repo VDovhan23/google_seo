@@ -16,7 +16,7 @@ class WebSiteController extends Controller
      */
     public function index()
     {
-        //
+        return Site::latest()->paginate(10);
     }
 
     /**
@@ -28,11 +28,11 @@ class WebSiteController extends Controller
     public function store(Request $request)
     {
 
-        // $this->validate($request, [
-        //     'user_id' => 'required',
-        //     'domain' => 'required',
-        //     'keywords' => 'required'
-        // ]);
+        $this->validate($request, [
+            'user_id' => 'required',
+            'url' => ['required', 'regex:/^(http\:\/\/|https\:\/\/)([a-z0-9][a-z0-9\-]*\.)+[a-z0-9][a-z0-9\-].*$/m'],
+            'keywords' => 'required'
+        ]);
 
        return Site::create([
             'user_id' => $request['user_id'],

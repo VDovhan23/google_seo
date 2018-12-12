@@ -15,21 +15,25 @@
               <div class="card-body table-responsive p-0">
                 <table class="table table-hover">
                   <tbody>
-                    <tr>
+                    <tr class="site_data">
                         <th>ID</th>
                         <th>URL</th>
                         <th>Keywords</th>
                         <th>Depth</th>
                         <th>Update Freq</th>
+                        <th>Current Position</th>
+                        <th>Last check date</th>
                         <th>Modify</th>
                   </tr>
-                  <tr>
-                        <td>1</td>
-                        <td>wwe.com</td>
-                        <td>wwe</td>
-                        <td>5</td>
-                        <td>10</td>
-                        <td>
+                   <tr v-for="site in sites" :key="site.id" class="site_data">
+                        <td>{{site.id}}</td>
+                        <td>{{site.domain}}</td>
+                        <td>{{site.keywords}}</td>
+                        <td>{{site.depth}}</td>
+                        <td>{{site.frequency}}</td>
+                        <td>{{site.position}}</td>
+                        <td>{{site.updated_at | dateFormat}}</td>
+                       <td>
                             <a href="">
                                 <i class="fa fa-edit" style="color:orange"></i>
                             </a><strong>/</strong>
@@ -64,15 +68,16 @@
                         <div class="card-header"> <h4>Project details</h4>
                             <p class="card-subtitle text-muted">Set options for your project</p>
                         </div>
+                        <div class="errors">{{error}}</div><!-- додати стилі -->
                         <div class="card-body">
                         <div class="form-group">
-                            <label for="url">URL:</label>
+                            <label for="url">URL:<small class="text-muted">must start with http:// or https://</small></label>
                             <input type="text" class="form-control" id="url" name="url" v-model="url">
                         </div>
                             <div class="filters">
                                 <span>Results page depth:</span>
                                 <div class="btn-group btn-group-toggle">
-                                    <label class="btn btn-secondary active">
+                                    <label class="btn btn-secondary ">
                                         <input type="radio" name="depth"  value="50" v-model="depth" checked> 5 Pages
                                     </label>
                                     <label class="btn btn-secondary">
@@ -84,7 +89,7 @@
                                     <label class="btn btn-secondary">
                                         <input type="radio" name="frequency" value="1"  v-model="frequency"> 1 Day
                                     </label>
-                                    <label class="btn btn-secondary active">
+                                    <label class="btn btn-secondary ">
                                         <input type="radio" name="frequency" value="7"  v-model="frequency" checked> Week
                                     </label>
                                     <label class="btn btn-secondary">
@@ -119,21 +124,42 @@
     export default {
             data() {
                 return {
-                    site: [],
+                    sites: [],
                     url : '',
                     keywords:  '',
                     depth: '50',
                     frequency: '7',
-                    user_id: auth_id
+                    user_id: auth_id,
+                    error: ''
                 }
             },
             methods: {
+                loadSites(){
+                    axios.get("api/site").then(({data})=> (this.sites = data.data))
+                },
                 createSite() {
                     axios
                     .post('api/site', {url:this.url, keywords:this.keywords, depth:this.depth, frequency:this.frequency, user_id: auth_id})
-                    // .then(res=>(this.site = res.data));
+                    .then(()=> {toast({
+                            type: 'success',
+                            title: 'Successfully Created'
+                        })
+                        $('.bd-example-modal-lg').modal('hide')
+                        this.loadSites();
+
+                    })
+                    .catch((error) => {
+                        toast({
+                            type: 'error',
+                            title: error.response.data.message
+                        })
+                    })
+
                 }
             },
+            created(){
+                this.loadSites();
+            }
 
     }
 </script>
@@ -141,5 +167,12 @@
 .modal-content{
     width: 900px;
     height: 520px;
+}
+.errors{
+    color: crimson;
+    text-align: center;
+}
+.site_data{
+    text-align: center;
 }
 </style>
