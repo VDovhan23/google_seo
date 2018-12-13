@@ -20,6 +20,7 @@ let routes = [
   ]
 
   const router = new VueRouter({
+    mode: 'history',
     routes
   })
 
@@ -40,6 +41,9 @@ let routes = [
   });
 
   window.toast = toast;
+
+  window.Fire = new Vue();
+
 
   //   sweet alert
 

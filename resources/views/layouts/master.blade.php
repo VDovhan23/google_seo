@@ -14,7 +14,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
    {{--CSS--}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    {{-- <link href="{{ asset('css/create.css') }}" rel="stylesheet"> --}}
+    <link href="{{ asset('css/create.css') }}" rel="stylesheet">
 
     <!-- Theme style -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -25,9 +25,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
     <script>
             window.auth_id = {!! auth()->user()->id !!}
-        </script>
+    </script>
 
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
@@ -99,13 +100,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </li>
 
                     <li class="nav-item">
-                            <router-link to="/logout" class="nav-link">
-                                <i class="fas fa-power-off"></i>
+                        <a class="nav-link" href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                                      document.getElementById('logout-form').submit();">
+                            <i class="nav-icon fa fa-power-off red"></i>
                             <p>
-                                Logout
+                                {{ __('Logout') }}
                             </p>
-                        </a>
-                    </li>
+                         </a>
+
+                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                         @csrf
+                     </form>
+                </li>
 
                 </ul>
             </nav>

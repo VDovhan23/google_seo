@@ -13,11 +13,17 @@
 
 
 Route::get('/', function () {
-    return view('welcome');
+    if (Auth::check()){
+        return view('welcome');
+    }
+    else {
+        return redirect('login');
+    }
+
+
 });
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('{path}',"HomeController@index")->where( 'path', '([A-z\d-\/_.]+)?' );
-// Route::get('/sites', 'HomeController@index')->name('home');
-// Route::resource('sites','SiteController');
+

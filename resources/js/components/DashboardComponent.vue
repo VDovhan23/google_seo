@@ -8,7 +8,7 @@
                 <h3 class="card-title">My Projects</h3>
 
                 <div class="card-tools">
-                    <button type="button" class="btn btn-success" id="add_new" data-toggle="modal" data-target=".bd-example-modal-lg">Add New <i class="fas fa-plus"></i></button>
+                    <button type="button" class="btn btn-success" id="add_new" @click="newModal" >Add New <i class="fas fa-plus"></i></button>
                 </div>
               </div>
 
@@ -35,9 +35,9 @@
                         <td>{{site.updated_at | dateFormat}}</td>
                        <td>
                             <a href="">
-                                <i class="fa fa-edit" style="color:orange"></i>
+                                <i class="fa fa-edit" @click.prevent="editModal(site)" style="color:orange"></i>
                             </a><strong>/</strong>
-                            <a href="">
+                            <a href="" @click.prevent="deleteSite(site.id)">
                                 <i class="fa fa-trash" style="color:red"></i>
                             </a>
                         </td>
@@ -56,12 +56,13 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Create your project</h5>
+            <h5 class="modal-title createModalLabel " v-if="!editMode">Create your project</h5>
+            <h5 class="modal-title updateModalLabel" v-else>Update your project</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <form @submit.prevent="createSite()">
+        <form @submit.prevent="editMode ? updateSite() : createSite()">
 
             <div class="modal-body">
                 <div class="card">
@@ -78,7 +79,7 @@
                                 <span>Results page depth:</span>
                                 <div class="btn-group btn-group-toggle">
                                     <label class="btn btn-secondary ">
-                                        <input type="radio" name="depth"  value="50" v-model="depth" checked> 5 Pages
+                                        <input cla type="radio" name="depth"  value="50" v-model="depth"> 5 Pages
                                     </label>
                                     <label class="btn btn-secondary">
                                         <input type="radio" name="depth"  value="100" v-model="depth"> 10 Pages
@@ -90,7 +91,7 @@
                                         <input type="radio" name="frequency" value="1"  v-model="frequency"> 1 Day
                                     </label>
                                     <label class="btn btn-secondary ">
-                                        <input type="radio" name="frequency" value="7"  v-model="frequency" checked> Week
+                                        <input type="radio" name="frequency" value="7"  v-model="frequency"> Week
                                     </label>
                                     <label class="btn btn-secondary">
                                         <input type="radio" name="frequency" value="10"  v-model="frequency"> 10 Days
@@ -110,7 +111,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Create</button>
+                <button type="submit" class="btn btn-success" v-if="!editMode">Create</button>
+                <button type="submit" class="btn btn-update" v-else>Update</button>
             </div>
     </form>
         </div>
@@ -124,7 +126,9 @@
     export default {
             data() {
                 return {
+                    editMode: false,
                     sites: [],
+                    id: '',
                     url : '',
                     keywords:  '',
                     depth: '50',
@@ -134,6 +138,24 @@
                 }
             },
             methods: {
+                newModal(){
+                    this.editMode = false;
+                    this.url = '';
+                    this.depth = '50';
+                    this.frequency  = '7';
+                    this.keywords  = '';
+                    $('.bd-example-modal-lg').modal('show');
+                },
+
+                editModal(data){
+                    this.id = data.id
+                    this.editMode = true;
+                    this.url = data.domain;
+                    this.depth = data.depth;
+                    this.frequency  = data.frequency ;
+                    this.keywords  = data.keywords ;
+                    $('.bd-example-modal-lg').modal('show');
+                },
                 loadSites(){
                     axios.get("api/site").then(({data})=> (this.sites = data.data))
                 },
@@ -145,8 +167,7 @@
                             title: 'Successfully Created'
                         })
                         $('.bd-example-modal-lg').modal('hide')
-                        this.loadSites();
-
+                        Fire.$emit('AfterCreate')
                     })
                     .catch((error) => {
                         toast({
@@ -154,11 +175,58 @@
                             title: error.response.data.message
                         })
                     })
+                },
+                updateSite(){
+                    console.log('Edit')
+                     axios
+                    .put('api/site/'+this.id, {url:this.url, keywords:this.keywords, depth:this.depth, frequency:this.frequency, user_id: auth_id})
+                    .then(()=> {toast({
+                            type: 'success',
+                            title: 'Successfully Updated'
+                        })
+                        $('.bd-example-modal-lg').modal('hide')
+                        Fire.$emit('AfterCreate')
+                    })
+                    .catch((error) => {
+                        toast({
+                            type: 'error',
+                            title: error.response.data.message
+                        })
+                    })
+                },
+                deleteSite(id){
+                    swal({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                        }).then((result) => {
 
+                        if (result.value) {
+                            //delete request
+                            axios.delete('api/site/'+id)
+                            .then(()=>{
+                                    swal(
+                                    'Deleted!',
+                                    'Your file has been deleted.',
+                                    'success'
+                                    )
+                                this.loadSites();
+                            }).catch(()=>{
+                                swal('Fail!', 'Something Wrong.', 'warning')
+                            })
+                        }
+                    })
                 }
             },
             created(){
                 this.loadSites();
+                Fire.$on('AfterCreate', ()=>{
+                    this.loadSites();
+                });
             }
 
     }
@@ -174,5 +242,17 @@
 }
 .site_data{
     text-align: center;
+}
+.createModalLabel{
+    color: green;
+    font-size: x-large;
+}
+.updateModalLabel{
+    color: orange;
+    font-size: x-large;
+}
+.btn-update{
+    background-color: orange;
+    color: white;
 }
 </style>

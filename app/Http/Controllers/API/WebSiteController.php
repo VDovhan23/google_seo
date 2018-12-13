@@ -67,7 +67,17 @@ class WebSiteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $site = Site::find($id);
+        $site->user_id = $request['user_id'];
+        $site->domain = $request['url'];
+        $site->keywords = $request['keywords'];
+        $site->depth = $request['depth'];
+        $site->frequency = $request['frequency'];
+        $site->position = 2;
+        $site->date = date("d:m:Y");
+        $site->save();
+
+        return ['message' => 'Site was updated'];
     }
 
     /**
@@ -78,6 +88,8 @@ class WebSiteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $site = Site::find($id);
+        $site->delete();
+        return ['message' => 'Site was deleted'];
     }
 }
