@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Site;
 use Auth;
+use JanDrda\LaravelGoogleCustomSearchEngine\LaravelGoogleCustomSearchEngine;
 
 class WebSiteController extends Controller
 {
@@ -34,17 +35,50 @@ class WebSiteController extends Controller
             'keywords' => 'required'
         ]);
 
+
+        $info = $this->site_info($request['url'], $request['keywords'], $request['depth']);
+
+        pre($info);
+
        return Site::create([
             'user_id' => $request['user_id'],
             'domain' => $request['url'],
             'keywords' => $request['keywords'],
             'depth' => $request['depth'],
             'frequency' => $request['frequency'],
-            'position' => 2,
+            'position' => $info,
             'date' => date("d:m:Y"),
        ]);
 
 
+    }
+    public function site_info($url, $keyword, $depth)
+    {
+        $search_results= array();
+        $google = new LaravelGoogleCustomSearchEngine();
+        $info = array();
+        $i = 1;
+        while ($i <= $depth) {
+            $parameters = array(
+                'start' =>$i, // start from the 10th results,
+                'num' => 10 // number of results to get, 10 is maximum and also default value
+            );
+            $results = $google->getResults($keyword, $parameters);
+            foreach ($results as $result){
+                array_push($search_results, $result);
+            }
+            $i= $i+10;
+        }
+//        pre($search_results);
+
+        foreach ($search_results as $k=>$v){
+            if (preg_match('|'.$url.'|', $v->link)) { // зробити гарну регулярку для всіх випадків (http://, https://, http://www., https://www. ... )
+                $info['position'] = $k+1;
+            }
+        }
+//        pre($info);
+//        exit;
+        return $info['position'];
     }
 
     /**
@@ -54,8 +88,11 @@ class WebSiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
+
     {
-        //
+        $site = Site::find($id);
+
+        return view('site.show', compact('site'));
     }
 
     /**

@@ -20,8 +20,10 @@ Route::get('/', function () {
         return redirect('login');
     }
 
-
 });
+
+Route::get('site/{id}', 'WebSiteController@show');
+
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 

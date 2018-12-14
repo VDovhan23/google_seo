@@ -67285,8 +67285,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         deleteSite: function deleteSite(id) {
-            var _this2 = this;
-
             swal({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -67301,20 +67299,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     //delete request
                     axios.delete('api/site/' + id).then(function () {
                         swal('Deleted!', 'Your file has been deleted.', 'success');
-                        _this2.loadSites();
+                        Fire.$emit('AfterCreate');
                     }).catch(function () {
                         swal('Fail!', 'Something Wrong.', 'warning');
                     });
                 }
             });
+        },
+        showSite: function showSite(data) {
+            console.log(data);
         }
     },
     created: function created() {
-        var _this3 = this;
+        var _this2 = this;
 
         this.loadSites();
         Fire.$on('AfterCreate', function () {
-            _this3.loadSites();
+            _this2.loadSites();
         });
     }
 });
@@ -67362,7 +67363,21 @@ var render = function() {
                         [
                           _c("td", [_vm._v(_vm._s(site.id))]),
                           _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(site.domain))]),
+                          _c("td", [
+                            _c(
+                              "a",
+                              {
+                                attrs: { href: "" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    _vm.showSite(site)
+                                  }
+                                }
+                              },
+                              [_vm._v(_vm._s(site.domain))]
+                            )
+                          ]),
                           _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(site.keywords))]),
                           _vm._v(" "),

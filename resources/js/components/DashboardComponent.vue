@@ -27,7 +27,7 @@
                   </tr>
                    <tr v-for="site in sites" :key="site.id" class="site_data">
                         <td>{{site.id}}</td>
-                        <td>{{site.domain}}</td>
+                        <td> <a href="" @click.prevent="showSite(site)">{{site.domain}}</a></td>
                         <td>{{site.keywords}}</td>
                         <td>{{site.depth}}</td>
                         <td>{{site.frequency}}</td>
@@ -214,13 +214,17 @@
                                     'Your file has been deleted.',
                                     'success'
                                     )
-                                this.loadSites();
+                                Fire.$emit('AfterCreate')
                             }).catch(()=>{
                                 swal('Fail!', 'Something Wrong.', 'warning')
                             })
                         }
                     })
+                },
+                showSite(data){
+                    console.log(data);
                 }
+
             },
             created(){
                 this.loadSites();
