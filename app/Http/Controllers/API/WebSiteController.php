@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Site;
 use Auth;
 use JanDrda\LaravelGoogleCustomSearchEngine\LaravelGoogleCustomSearchEngine;
+use App\User;
+use Illuminate\Support\Facades\Hash;
 
 class WebSiteController extends Controller
 {
@@ -93,6 +95,34 @@ class WebSiteController extends Controller
         $site = Site::find($id);
 
         return view('site.show', compact('site'));
+    }
+
+    public function profile()
+
+    {
+
+    }
+
+    public function updateProfile(Request $request)
+
+    {
+       $user = User::find($request->id);
+       $user->name = $request['name'];
+       $user->email = $request['email'];
+       if ($request['photo']){
+
+        $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
+        \Image::make($request->photo)->save(public_path('img/profile/').$name);
+        $request->merge(['photo' => $name]);
+
+
+        $user->avatar = $request['photo'];
+       }
+    //    $user->avatar = $request['photo'];
+       $user->type = $request['type'];
+       $user->password = Hash::make($request['password']);
+       $user->save();
+       return $user;
     }
 
     /**

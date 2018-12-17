@@ -27,7 +27,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
     <script>
-            window.auth_id = {!! auth()->user()->id !!}
+            window.user = {!! auth()->user() !!}
     </script>
 
     <!-- Google Font: Source Sans Pro -->
@@ -79,8 +79,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <img src="/img/profile.png" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-
-                    <router-link to="/profile" class="d-block">{{Auth::user()->name}}
+                    <router-link to="/profile" class="d-block">{{Auth::user()->name}} <span style="color: blanchedalmond; font-family: monospace;">{{Auth::user()->type}}</span>
                 </div>
             </div
 
@@ -98,6 +97,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <router-link to="/profile" class="nav-link">
+                            <i class="nav-icon fas fa-user "></i>
+                            <p>
+                                Profile
+                            </p>
+                        </router-link>
+                 </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('logout') }}"

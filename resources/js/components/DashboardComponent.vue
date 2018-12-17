@@ -133,7 +133,7 @@
                     keywords:  '',
                     depth: '50',
                     frequency: '7',
-                    user_id: auth_id,
+                    user_id: user.id,
                     error: ''
                 }
             },
@@ -161,7 +161,7 @@
                 },
                 createSite() {
                     axios
-                    .post('api/site', {url:this.url, keywords:this.keywords, depth:this.depth, frequency:this.frequency, user_id: auth_id})
+                    .post('api/site', {url:this.url, keywords:this.keywords, depth:this.depth, frequency:this.frequency, user_id: user.id})
                     .then(()=> {toast({
                             type: 'success',
                             title: 'Successfully Created'
@@ -179,7 +179,7 @@
                 updateSite(){
                     console.log('Edit')
                      axios
-                    .put('api/site/'+this.id, {url:this.url, keywords:this.keywords, depth:this.depth, frequency:this.frequency, user_id: auth_id})
+                    .put('api/site/'+this.id, {url:this.url, keywords:this.keywords, depth:this.depth, frequency:this.frequency, user_id: user.id})
                     .then(()=> {toast({
                             type: 'success',
                             title: 'Successfully Updated'
@@ -227,6 +227,7 @@
 
             },
             created(){
+
                 this.loadSites();
                 Fire.$on('AfterCreate', ()=>{
                     this.loadSites();

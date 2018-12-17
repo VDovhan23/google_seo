@@ -5,8 +5,8 @@
             <div class="card card-widget widget-user mt-3">
               <!-- Add the bg color to the header using any of the bg-* classes -->
               <div class="widget-user-header text-white" style="background: url('/img/background-profile.jpg') center center;">
-                <h3 class="widget-user-username">Elizabeth Pierce</h3>
-                <h5 class="widget-user-desc">Web Designer</h5>
+                <h3 class="widget-user-username">{{name}}</h3>
+                <h5 class="widget-user-desc">{{type}}</h5>
               </div>
               <div class="widget-user-image">
                 <img class="img-circle" src="" alt="User Avatar">
@@ -60,66 +60,44 @@
                   </div>
                   <!-- /.tab-pane -->
 
-
                   <div class="tab-pane" id="settings">
                     <form class="form-horizontal">
                       <div class="form-group">
                         <label for="inputName" class="col-sm-2 control-label">Name</label>
-
                         <div class="col-sm-10">
-                          <input type="email" class="form-control" id="inputName" placeholder="Name">
+                          <input type="text" class="form-control" id="userName" placeholder="Name" v-model='name'>
                         </div>
                       </div>
                       <div class="form-group">
                         <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-
                         <div class="col-sm-10">
-                          <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                          <input type="email" class="form-control" id="userEmail" placeholder="Email"  v-model='email'>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label for="inputName2" class="col-sm-2 control-label">Name</label>
-
+                        <label for="inputPassword" class="col-sm-2 control-label">Password</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputName2" placeholder="Name">
+                          <input type="text" class="form-control" id="userPassword" placeholder="Password"  v-model='password'>
                         </div>
                       </div>
-                      <div class="form-group">
-                        <label for="inputExperience" class="col-sm-2 control-label">Experience</label>
 
-                        <div class="col-sm-10">
-                          <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                    <div class="form-group">
+                        <label for="photo" class="col-sm-3 control-label">Change Profile Photo</label>
+                        <div class="col-sm-12">
+                            <input type="file" name="photo" @change="updateProfile" class="form-input">
                         </div>
-                      </div>
-                      <div class="form-group">
-                        <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
+                    </div>
 
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                        </div>
-                      </div>
                       <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                          <div class="checkbox">
-                            <label>
-                              <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                          <button type="submit" class="btn btn-danger">Submit</button>
+                          <button type="submit" @click.prevent="updateInfo" class="btn btn-success">Update Profile</button>
                         </div>
                       </div>
                     </form>
                   </div>
-                  <!-- /.tab-pane -->
                 </div>
-                <!-- /.tab-content -->
-              </div><!-- /.card-body -->
+              </div>
             </div>
-            <!-- /.nav-tabs-custom -->
           </div>
         </div>
     </div>
@@ -127,8 +105,46 @@
 
 <script>
     export default {
-        mounted() {
-            console.log('Component mounted.')
-        }
+        data() {
+            return {
+                user_id: user.id,
+                name : user.name,
+                email : user.email,
+                type : user.type,
+                password : user.password,
+                photo: 'profile.png'
+            }
+        },
+        methods: {
+            updateProfile(e) {
+                let file = e.target.files[0];
+                let reader = new FileReader();
+                if(file['size'] < 2111775){
+                    reader.onloadend = (file) => {
+                        this.photo = reader.result;
+                    }
+                }
+                else{
+                    swal('Fail!', 'You have exceeded the maximum size of file. Maximum size is 2 MB', 'warning')
+                }
+                reader.readAsDataURL(file);
+
+            },
+            updateInfo(){
+                axios.put('api/profile/', {id:user.id, name:this.name, email:this.email, photo:this.photo, type:this.type, password:this.password})
+                .then(()=>{
+                    console.log("Profile Updated")
+                })
+            }
+        },
+        created() {
+            axios.get('api/profile/')
+                    .then((res)=>{
+                    // console.log(res.data)
+                }).catch(()=>{
+                    swal('Fail!', 'Something Wrong.', 'warning')
+                })
+            }
+
     }
 </script>
