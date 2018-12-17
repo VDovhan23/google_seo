@@ -90,17 +90,15 @@ class WebSiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-
     {
         $site = Site::find($id);
-
-        return view('site.show', compact('site'));
+        return $site;
     }
 
+
     public function profile()
-
     {
-
+        return ['message' => 'A'];
     }
 
     public function updateProfile(Request $request)
@@ -109,21 +107,19 @@ class WebSiteController extends Controller
        $user = User::find($request->id);
        $user->name = $request['name'];
        $user->email = $request['email'];
-       if ($request['photo']){
 
+       if ($request['photo']){
         $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
         \Image::make($request->photo)->save(public_path('img/profile/').$name);
         $request->merge(['photo' => $name]);
-
-
         $user->avatar = $request['photo'];
        }
-    //    $user->avatar = $request['photo'];
        $user->type = $request['type'];
        $user->password = Hash::make($request['password']);
        $user->save();
        return $user;
     }
+
 
     /**
      * Update the specified resource in storage.

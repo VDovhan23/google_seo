@@ -1,3 +1,6 @@
 @extends('layouts.master')
 
-{{$site}}
+@section('content')
+    {{$site}}
+    <h1>Site</h1>
+@endsection

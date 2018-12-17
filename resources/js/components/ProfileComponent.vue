@@ -140,7 +140,7 @@
         created() {
             axios.get('api/profile/')
                     .then((res)=>{
-                    // console.log(res.data)
+                    console.log(res.data)
                 }).catch(()=>{
                     swal('Fail!', 'Something Wrong.', 'warning')
                 })

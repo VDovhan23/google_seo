@@ -23,6 +23,7 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::get('show/get_site/{id}', 'API\WebSiteController@show');
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('{path}',"HomeController@index")->where( 'path', '([A-z\d-\/_.]+)?' );

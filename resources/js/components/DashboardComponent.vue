@@ -27,7 +27,7 @@
                   </tr>
                    <tr v-for="site in sites" :key="site.id" class="site_data">
                         <td>{{site.id}}</td>
-                        <td> <a href="" @click.prevent="showSite(site)">{{site.domain}}</a></td>
+                        <td> <a href="" @click.prevent="getThisSite(site.id)">{{site.domain}}</a> </td>
                         <td>{{site.keywords}}</td>
                         <td>{{site.depth}}</td>
                         <td>{{site.frequency}}</td>
@@ -138,6 +138,10 @@
                 }
             },
             methods: {
+                getThisSite(id){
+                    window.location.href = 'show/'+id
+                    console.log(id);
+                },
                 newModal(){
                     this.editMode = false;
                     this.url = '';
@@ -221,13 +225,9 @@
                         }
                     })
                 },
-                showSite(data){
-                    console.log(data);
-                }
 
             },
             created(){
-
                 this.loadSites();
                 Fire.$on('AfterCreate', ()=>{
                     this.loadSites();
