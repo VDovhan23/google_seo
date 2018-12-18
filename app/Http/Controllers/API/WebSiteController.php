@@ -98,7 +98,6 @@ class WebSiteController extends Controller
 
     public function profile(Request $request)
     {
-
         $user = User::find($request->id);
         return $user;
     }
