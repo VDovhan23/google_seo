@@ -32,7 +32,7 @@
             <div class="card col-md-12" >
               <div class="card-header no-border">
                 <div class="d-flex justify-content-between">
-                  <h3 class="card-title">Online Store Visitors</h3>
+                  <h3 class="card-title">Position Graph</h3>
                   <a href="javascript:void(0);">View Report</a>
                 </div>
               </div>

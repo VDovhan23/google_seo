@@ -96,9 +96,11 @@ class WebSiteController extends Controller
     }
 
 
-    public function profile()
+    public function profile(Request $request)
     {
-        return ['message' => 'A'];
+
+        $user = User::find($request->id);
+        return $user;
     }
 
     public function updateProfile(Request $request)
@@ -108,7 +110,7 @@ class WebSiteController extends Controller
        $user->name = $request['name'];
        $user->email = $request['email'];
 
-       if ($request['photo']){
+       if ($request['photo'] ){
         $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
         \Image::make($request->photo)->save(public_path('img/profile/').$name);
         $request->merge(['photo' => $name]);
@@ -117,6 +119,7 @@ class WebSiteController extends Controller
        $user->type = $request['type'];
        $user->password = Hash::make($request['password']);
        $user->save();
+
        return $user;
     }
 
@@ -136,8 +139,11 @@ class WebSiteController extends Controller
         $site->keywords = $request['keywords'];
         $site->depth = $request['depth'];
         $site->frequency = $request['frequency'];
-        $site->position = 2;
-        $site->date = date("d:m:Y");
+
+        $info = $this->site_info($request['url'], $request['keywords'], $request['depth']);
+
+        $site->position = $info;
+        $site->date = date("d:m:Y h:i");
         $site->save();
 
         return ['message' => 'Site was updated'];

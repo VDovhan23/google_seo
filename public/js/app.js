@@ -30451,7 +30451,7 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
 });
 
 Vue.filter('dateFormat', function (date) {
-  return __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).format('MMMM Do YYYY');
+  return __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).format('MMMM Do YYYY h:mm');
 });
 
 
@@ -68038,9 +68038,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             email: user.email,
             type: user.type,
             password: user.password,
-            photo: 'profile.png'
+            photo: '',
+            tempPhoto: ''
         };
     },
+
 
     methods: {
         updateProfile: function updateProfile(e) {
@@ -68050,25 +68052,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var reader = new FileReader();
             if (file['size'] < 2111775) {
                 reader.onloadend = function (file) {
-                    _this.photo = reader.result;
+                    _this.tempPhoto = reader.result;
                 };
             } else {
                 swal('Fail!', 'You have exceeded the maximum size of file. Maximum size is 2 MB', 'warning');
             }
             reader.readAsDataURL(file);
         },
+        getProfilePic: function getProfilePic() {
+            return "img/profile/" + this.photo;
+        },
         updateInfo: function updateInfo() {
-            axios.put('api/profile/', { id: user.id, name: this.name, email: this.email, photo: this.photo, type: this.type, password: this.password }).then(function () {
-                console.log("Profile Updated");
+            var _this2 = this;
+
+            axios.put('api/profile/', { id: user.id, name: this.name, email: this.email, photo: this.tempPhoto, type: this.type, password: this.password }).then(function (res) {
+                _this2.photo = res.data.avatar;
+            });
+        },
+        loadProfile: function loadProfile() {
+            var _this3 = this;
+
+            axios.post('api/profile/', { id: user.id }).then(function (res) {
+                _this3.name = res.data.name, _this3.email = res.data.email, _this3.type = res.data.type;
+                if (res.data.avatar == null) {
+                    _this3.photo = 'profile.png';
+                } else {
+                    _this3.photo = res.data.avatar;
+                }
+            }).catch(function () {
+                swal('Fail!', 'Something Wrong.', 'warning');
             });
         }
     },
     created: function created() {
-        axios.get('api/profile/').then(function (res) {
-            console.log(res.data);
-        }).catch(function () {
-            swal('Fail!', 'Something Wrong.', 'warning');
-        });
+        this.loadProfile();
     }
 });
 
@@ -68103,19 +68120,24 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _vm._m(0),
+          _c("div", { staticClass: "widget-user-image" }, [
+            _c("img", {
+              staticClass: "img-circle",
+              attrs: { src: _vm.getProfilePic(), alt: "User Avatar" }
+            })
+          ]),
           _vm._v(" "),
-          _vm._m(1)
+          _vm._m(0)
         ])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-12" }, [
         _c("div", { staticClass: "card" }, [
-          _vm._m(2),
+          _vm._m(1),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
             _c("div", { staticClass: "tab-content" }, [
-              _vm._m(3),
+              _vm._m(2),
               _vm._v(" "),
               _c(
                 "div",
@@ -68287,17 +68309,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "widget-user-image" }, [
-      _c("img", {
-        staticClass: "img-circle",
-        attrs: { src: "", alt: "User Avatar" }
-      })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -71494,9 +71505,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "card col-md-12" }, [
       _c("div", { staticClass: "card-header no-border" }, [
         _c("div", { staticClass: "d-flex justify-content-between" }, [
-          _c("h3", { staticClass: "card-title" }, [
-            _vm._v("Online Store Visitors")
-          ]),
+          _c("h3", { staticClass: "card-title" }, [_vm._v("Position Graph")]),
           _vm._v(" "),
           _c("a", { attrs: { href: "javascript:void(0);" } }, [
             _vm._v("View Report")

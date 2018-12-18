@@ -22,5 +22,5 @@ Route::apiResources([
     'site' => 'API\WebSiteController'
 ]);
 
-Route::get('profile', 'API\WebSiteController@profile');
+Route::post('profile', 'API\WebSiteController@profile');
 Route::put('profile', 'API\WebSiteController@updateProfile');

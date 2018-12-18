@@ -9,7 +9,7 @@
                 <h5 class="widget-user-desc">{{type}}</h5>
               </div>
               <div class="widget-user-image">
-                <img class="img-circle" src="" alt="User Avatar">
+                <img class="img-circle" :src="getProfilePic()" alt="User Avatar">
               </div>
               <div class="card-footer">
                 <div class="row">
@@ -112,16 +112,18 @@
                 email : user.email,
                 type : user.type,
                 password : user.password,
-                photo: 'profile.png'
+                photo: '',
+                tempPhoto: '',
             }
         },
+
         methods: {
             updateProfile(e) {
                 let file = e.target.files[0];
                 let reader = new FileReader();
                 if(file['size'] < 2111775){
                     reader.onloadend = (file) => {
-                        this.photo = reader.result;
+                        this.tempPhoto = reader.result
                     }
                 }
                 else{
@@ -130,21 +132,37 @@
                 reader.readAsDataURL(file);
 
             },
+            getProfilePic(){
+                return "img/profile/" + this.photo
+            },
             updateInfo(){
-                axios.put('api/profile/', {id:user.id, name:this.name, email:this.email, photo:this.photo, type:this.type, password:this.password})
-                .then(()=>{
-                    console.log("Profile Updated")
+                axios.put('api/profile/', {id:user.id, name:this.name, email:this.email, photo:this.tempPhoto, type:this.type, password:this.password})
+                .then((res)=>{
+                    this.photo = res.data.avatar
                 })
-            }
-        },
-        created() {
-            axios.get('api/profile/')
+            },
+            loadProfile(){
+                axios.post('api/profile/', {id: user.id})
                     .then((res)=>{
-                    console.log(res.data)
+                        this.name = res.data.name,
+                        this.email = res.data.email,
+                        this.type = res.data.type
+                        if(res.data.avatar== null){
+                            this.photo = 'profile.png'
+                        }
+                        else{
+                            this.photo =  res.data.avatar
+                        }
+
                 }).catch(()=>{
                     swal('Fail!', 'Something Wrong.', 'warning')
                 })
             }
+        },
+        created() {
+            this.loadProfile()
+
+        }
 
     }
 </script>
