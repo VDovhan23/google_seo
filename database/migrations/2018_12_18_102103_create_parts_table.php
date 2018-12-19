@@ -16,6 +16,7 @@ class CreatePartsTable extends Migration
         Schema::create('parts', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('site_id');
+            $table->string('domain');
             $table->string('keyword');
             $table->string('position');
             $table->string('date');

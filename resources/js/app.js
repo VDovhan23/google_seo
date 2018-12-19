@@ -16,7 +16,7 @@ Vue.use(VueRouter)
 let routes = [
     { path: '/dashboard', component: require('./components/DashboardComponent.vue') },
     { path: '/profile', component: require('./components/ProfileComponent.vue') },
-    { path: '/show/:id', component: require('./components/ShowComponent.vue'), props: true }
+    { path: '/show/:id', component: require('./components/ShowComponent.vue')}
   ]
 
   const router = new VueRouter({
@@ -39,11 +39,10 @@ let routes = [
   });
 
   window.toast = toast;
-
   window.Fire = new Vue();
 
-
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('chart-component', require('./components/ChartComponent.vue'));
 
 
 const app = new Vue({

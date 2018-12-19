@@ -14,7 +14,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
    {{--CSS--}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/create.css') }}" rel="stylesheet">
+
 
     <!-- Theme style -->
     <meta name="csrf-token" content="{{ csrf_token() }}">

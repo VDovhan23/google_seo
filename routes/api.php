@@ -19,7 +19,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::apiResources([
-    'site' => 'API\WebSiteController'
+    'site' => 'API\WebSiteController',
+    'part' => 'API\PartController'
 ]);
 
 Route::post('profile', 'API\WebSiteController@profile');

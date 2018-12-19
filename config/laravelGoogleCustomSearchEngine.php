@@ -9,7 +9,8 @@ return [
      *
      * !! Attention !! If you change style of your Custom search engine, the ID can be changed
      */
-    'engineId' => '000967196372083492163:y1awe_y8hqe',
+    // 'engineId' => '000967196372083492163:y1awe_y8hqe',
+    'engineId' => '000967196372083492163:nui0m_ouwb4',
 
     /**
      * For generation API key you have to go to https://console.developers.google.com, than
@@ -24,5 +25,6 @@ return [
      *
      * !! Attention !! It can take some time to API key will be authorized, wait 10 mins before starting to use it
      */
-    'apiKey' => 'AIzaSyBYNiZHX1Raci9IMchvvQsqDsJNJUe5MAE'
+    // 'apiKey' => 'AIzaSyBYNiZHX1Raci9IMchvvQsqDsJNJUe5MAE',
+    'apiKey' => 'AIzaSyD5ElxEGOjEA1MVannXARZlcHOo2fKEux0',
 ];

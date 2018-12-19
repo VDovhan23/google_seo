@@ -1,86 +1,107 @@
 <template>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-12">
+            <div class="col-md-12  mt-3">
                 <div class="card card-default">
-                     <div class="card-body table-responsive p-0">
+            <div class="card-body table-responsive p-0">
                 <table class="table table-hover">
-                  <tbody>
+                    <thead>
                     <tr class="site_data">
                         <th>ID</th>
+                        <th>Keyword</th>
                         <th>URL</th>
-                        <th>Keywords</th>
-                        <th>Depth</th>
-                        <th>Update Freq</th>
                         <th>Current Position</th>
                         <th>Last check date</th>
-                  </tr>
-                   <tr class="site_data">
-                        <td>{{site.id}}</td>
-                        <td> {{site.domain}}</td>
-                        <td>{{site.keywords}}</td>
-                        <td>{{site.depth}}</td>
-                        <td>{{site.frequency}}</td>
-                        <td>{{site.position}}</td>
-                        <td>{{site.updated_at | dateFormat}}</td>
-
+                        <th>Competitor</th>
+                        <th>Update info</th>
+                        <th>Delete</th>
+                    </tr>
+                    </thead>
+                  <tbody class="site_data" v-for="part in parts" :key='part.id'>
+                   <tr>
+                        <td>{{part.id}}</td>
+                        <td><a class="show_link" href="" @click.prevent="showPartInfo(part.id)">{{part.keyword}}</a></td>
+                        <td>{{part.domain}}</td>
+                        <td>{{part.position}}</td>
+                        <td>{{part.updated_at | dateFormat}}</td>
+                        <td>{{part.competitor}}</td>
+                        <td><button class="btn btn-success" @click.prevent="manualUpdate(part.id)">Update now</button></td>
+                        <td><button class="btn btn-danger" @click.prevent="partDelete(part.id)">Delete</button></td>
                    </tr>
-                </tbody></table>
-              </div>
-                </div>
-            </div>
-            <div class="card col-md-12" >
-              <div class="card-header no-border">
-                <div class="d-flex justify-content-between">
-                  <h3 class="card-title">Position Graph</h3>
-                  <a href="javascript:void(0);">View Report</a>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="d-flex">
-                  <p class="d-flex flex-column">
-                    <span class="text-bold text-lg">820</span>
-                    <span>Visitors Over Time</span>
-                  </p>
-                  <p class="ml-auto d-flex flex-column text-right">
-                    <span class="text-success">
-                      <i class="fa fa-arrow-up"></i> 12.5%
-                    </span>
-                    <span class="text-muted">Since last week</span>
-                  </p>
-                </div>
-                <!-- /.d-flex -->
-
-                <div class="position-relative mb-4"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
-                  <canvas id="visitors-chart" height="200" width="368" class="chartjs-render-monitor" style="display: block; width: 368px; height: 200px;"></canvas>
-                </div>
-
-                <div class="d-flex flex-row justify-content-end">
-                  <span class="mr-2">
-                    <i class="fa fa-square text-primary"></i> This Week
-                  </span>
-
-                  <span>
-                    <i class="fa fa-square text-gray"></i> Last Week
-                  </span>
-                </div>
+                   <tr :id="'graph'+part.id" class="hideGraph" >
+                       <td colspan="8">
+                           <chart-component
+                           :part="part"
+                           ></chart-component>
+                       </td>
+                   </tr>
+                </tbody>
+                </table>
               </div>
             </div>
+            </div>
+
         </div>
     </div>
 </template>
 
 <script>
+import ChartComponent from './ChartComponent.vue'
     export default {
-        mounted() {
-            console.log('Show mounted.')
-            axios.get('get_site/'+this.id).then(({data})=> (this.site = data))
+       created() {
+            this.loadParts();
         },
         data() {
             return {
-                site:[],
-                id: this.$route.params.id
+                parts:[],
+                id: this.$route.params.id,
+                isActive: false
             }
         },
+        methods: {
+            loadParts(){
+                axios.get('get_site/'+this.id).then(({data})=> {
+                    this.parts = data
+                    // for(var i=0; i< this.parts.length; i++){
+                    //     this.parts[i].open = false;
+                    // }
+                })
+            },
+            showPartInfo(id){
+                var part = this.parts[id-1];
+                if($('#graph'+part.id).hasClass('hideGraph')){
+                    $('#graph'+part.id).removeClass('hideGraph')
+                    $('#graph'+part.id).addClass('showGraph')
+                }else{
+                    $('#graph'+part.id).removeClass('showGraph')
+                    $('#graph'+part.id).addClass('hideGraph')
+                }
+                console.log(part.date)
+                console.log(part.position)
+            },
+            manualUpdate(id) {
+                var singlePart = this.parts[id-1];
+                axios
+                .put('/api/part/'+id, {position: singlePart.position, keyword: singlePart.keyword, date: singlePart.date, site_id: singlePart.site_id})
+                .then((res)=>{
+                    console.log(res);
+                })
+            },
+            partDelete(id) {
+                console.log('delete'+id);
+            }
+        },
+        components:{ChartComponent}
     }
 </script>
+<style>
+    .show_link{
+        text-decoration: none;
+    }
+    /* .showGraph{
+        display: block;
+    } */
+    .hideGraph{
+        display: none;
+    }
+</style>

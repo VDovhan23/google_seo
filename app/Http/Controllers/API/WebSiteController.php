@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Site;
+use App\Models\Part;
 use Auth;
 use JanDrda\LaravelGoogleCustomSearchEngine\LaravelGoogleCustomSearchEngine;
 use App\User;
@@ -38,25 +39,46 @@ class WebSiteController extends Controller
         ]);
 
 
-        $info = $this->site_info($request['url'], $request['keywords'], $request['depth']);
+        // $info = $this->site_info($request['url'], $request['keywords'], $request['depth']);
 
-        pre($info);
+        $site = new Site;
+        $site->user_id = $request['user_id'];
+        $site->domain = $request['url'];
+        $site->keywords = $request['keywords'];
+        $site->depth = $request['depth'];
+        $site->frequency = $request['frequency'];
+        // $site->position = $info; //буде перероблено на  останню позицію
+        $site->position = 2; //буде перероблено на  останню позицію
+        $site->date = date("d:m:Y"); // буде дата останнього оновелння
+        if (!empty(Site::all()->last()->id)) {
+            $partId = Site::all()->last()->id+1;
+        }else{
+            $partId = 1;
+        }
+        $parts = $this->createParts($partId, $request['url'], $request['keywords'], $request['depth'], $request['frequency']);
 
-       return Site::create([
-            'user_id' => $request['user_id'],
-            'domain' => $request['url'],
-            'keywords' => $request['keywords'],
-            'depth' => $request['depth'],
-            'frequency' => $request['frequency'],
-            'position' => $info,
-            'date' => date("d:m:Y"),
-       ]);
-
-
+        $site->save();
+        return $site;
     }
+
+    public function createParts($id, $domain, $keywords, $depth, $frequency){
+        $keywords_arr = explode(',',$keywords);
+        foreach ($keywords_arr as $keyword) {
+            $part = new Part;
+            $part->site_id = $id;
+            $part->domain = $domain;
+            $part->keyword = $keyword;
+            $part->site_id = $id;
+            $part->date = date("d:m:Y h:i");
+            $part->position = $this->site_info($domain, $keyword, $depth);
+            $part->save();
+        }
+    }
+
     public function site_info($url, $keyword, $depth)
     {
         $search_results= array();
+
         $google = new LaravelGoogleCustomSearchEngine();
         $info = array();
         $i = 1;
@@ -91,7 +113,7 @@ class WebSiteController extends Controller
      */
     public function show($id)
     {
-        $site = Site::find($id);
+        $site = Part::all()->where('site_id', $id);
         return $site;
     }
 
@@ -116,7 +138,9 @@ class WebSiteController extends Controller
         $user->avatar = $request['photo'];
        }
        $user->type = $request['type'];
-       $user->password = Hash::make($request['password']);
+       if ($request['password']){
+           $user->password = Hash::make($request['password']);
+       }
        $user->save();
 
        return $user;
@@ -140,13 +164,16 @@ class WebSiteController extends Controller
         $site->frequency = $request['frequency'];
 
         $info = $this->site_info($request['url'], $request['keywords'], $request['depth']);
-
         $site->position = $info;
         $site->date = date("d:m:Y h:i");
+        $request['competitor'] ? $site->competitor = $request['competitor'] : $site->competitor = "-";
+
         $site->save();
 
         return ['message' => 'Site was updated'];
     }
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -158,6 +185,7 @@ class WebSiteController extends Controller
     {
         $site = Site::find($id);
         $site->delete();
+        $parts = Part::where('site_id', $id)->get()->each->delete(); // delete each part who have connection with this site
         return ['message' => 'Site was deleted'];
     }
 }
