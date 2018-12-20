@@ -52,3 +52,5 @@ const app = new Vue({
 
 import HighchartsVue from 'highcharts'
 Vue.use(HighchartsVue)
+
+

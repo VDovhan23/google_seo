@@ -68682,7 +68682,7 @@ exports = module.exports = __webpack_require__(5)(false);
 
 
 // module
-exports.push([module.i, "\n.highcharts-root[data-v-59dc526a]{\n    width: 100%;\n}\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -68712,9 +68712,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             position: [],
             date: [],
+            chartStyle: {},
             chartOptions: {
                 chart: {
-                    backgroundColor: 'rgba(238,238,238,0.1)',
+                    width: 991,
+                    backgroundColor: 'rgba(55,71,79,0.05)',
                     type: 'area',
                     zoomType: 'x'
                 },
@@ -68727,6 +68729,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     }
                 },
                 xAxis: {
+                    crosshair: true,
                     labels: {
                         style: {
                             color: '#000',
@@ -68736,6 +68739,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     categories: []
                 },
                 yAxis: {
+                    crosshair: true,
                     labels: {
                         style: {
                             color: '#000',
@@ -68761,10 +68765,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
             this.chartOptions.series[0].data = result_pos;
 
-            this.date = this.part.date.split(',');
-            // var result_date = this.date.map(function (x) {
-            //     return parseInt(x, 10);
-            // });
             this.chartOptions.xAxis.categories = this.part.date.split(',');
         }
     },

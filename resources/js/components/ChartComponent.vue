@@ -1,6 +1,6 @@
 <template>
    <div id="chart">
-        <highcharts :options="chartOptions" ></highcharts>
+        <highcharts :options="chartOptions"  ></highcharts>
    </div>
 </template>
 
@@ -15,11 +15,15 @@ import {Chart} from 'highcharts-vue'
         return {
                 position: [],
                 date: [],
+                chartStyle:{
+
+                },
                 chartOptions: {
                     chart: {
-                        backgroundColor: 'rgba(238,238,238,0.1)',
+                        width: 991,
+                        backgroundColor: 'rgba(55,71,79,0.05)',
                         type: 'area',
-                        zoomType: 'x'
+                        zoomType: 'x',
                     },
                     title: {
                         text: this.part.keyword + ' Tracking history',
@@ -30,6 +34,7 @@ import {Chart} from 'highcharts-vue'
                         }
                     },
                     xAxis: {
+                        crosshair: true,
                          labels: {
                             style: {
                                 color: '#000',
@@ -39,6 +44,7 @@ import {Chart} from 'highcharts-vue'
                         categories: []
                     },
                     yAxis: {
+                        crosshair: true,
                          labels: {
                             style: {
                                 color: '#000',
@@ -66,11 +72,6 @@ import {Chart} from 'highcharts-vue'
                 });
                this.chartOptions.series[0].data = result_pos;
 
-
-               this.date = this.part.date.split(',')
-                // var result_date = this.date.map(function (x) {
-                //     return parseInt(x, 10);
-                // });
                this.chartOptions.xAxis.categories = this.part.date.split(',');
             }
         },
@@ -83,9 +84,7 @@ import {Chart} from 'highcharts-vue'
     }
 </script>
 <style scoped>
-    .highcharts-root{
-        width: 100%;
-    }
+
 </style>
 
 
