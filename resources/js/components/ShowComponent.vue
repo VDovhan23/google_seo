@@ -76,8 +76,6 @@ import ChartComponent from './ChartComponent.vue'
                     $('#graph'+part.id).removeClass('showGraph')
                     $('#graph'+part.id).addClass('hideGraph')
                 }
-                console.log(part.date)
-                console.log(part.position)
             },
             manualUpdate(id) {
                 var singlePart = this.parts[id-1];

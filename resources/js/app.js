@@ -49,3 +49,6 @@ const app = new Vue({
     el: '#app',
     router
 });
+
+import HighchartsVue from 'highcharts'
+Vue.use(HighchartsVue)
