@@ -20,8 +20,6 @@ class CreateSitesTable extends Migration
             $table->text('keywords');
             $table->unsignedInteger('depth')->default(5);
             $table->unsignedInteger('frequency')->default(7);
-            $table->text('position');
-            $table->text('date');
             $table->timestamps();
         });
     }

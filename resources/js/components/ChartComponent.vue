@@ -65,6 +65,7 @@ import {Chart} from 'highcharts-vue'
             }
         },
         methods: {
+            //додати конкурентів
             setChartData() {
                 this.position = this.part.position.split(',')
                 var result_pos = this.position.map(function (x) {
@@ -77,14 +78,12 @@ import {Chart} from 'highcharts-vue'
         },
         created(){
             this.setChartData();
-             console.log(this.chartOptions.series[0].data)
+            //  console.log(this.chartOptions.series[0].data)
         },
-
-
     }
 </script>
 <style scoped>
 
 </style>
 
-
+w

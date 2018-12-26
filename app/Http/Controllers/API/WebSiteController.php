@@ -47,8 +47,6 @@ class WebSiteController extends Controller
         $site->keywords = $request['keywords'];
         $site->depth = $request['depth'];
         $site->frequency = $request['frequency'];
-        // $site->position = $info; //буде перероблено на  останню позицію
-        $site->position = 2; //буде перероблено на  останню позицію
         $site->date = date("d:m:Y"); // буде дата останнього оновелння
         if (!empty(Site::all()->last()->id)) {
             $partId = Site::all()->last()->id+1;
@@ -72,6 +70,8 @@ class WebSiteController extends Controller
             $part->date = date("d:m:Y h:i");
             $part->position = $this->site_info($domain, $keyword, $depth);
             $part->save();
+
+
         }
     }
 
@@ -164,8 +164,6 @@ class WebSiteController extends Controller
         $site->frequency = $request['frequency'];
 
         $info = $this->site_info($request['url'], $request['keywords'], $request['depth']);
-        $site->position = $info;
-        $site->date = date("d:m:Y h:i");
         $request['competitor'] ? $site->competitor = $request['competitor'] : $site->competitor = "-";
 
         $site->save();

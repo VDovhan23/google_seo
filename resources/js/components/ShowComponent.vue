@@ -10,7 +10,7 @@
                         <th>ID</th>
                         <th>Keyword</th>
                         <th>URL</th>
-                        <th>Current Position</th>
+                        <th>Positions history</th>
                         <th>Last check date</th>
                         <th>Competitor</th>
                         <th>Update info</th>
@@ -86,7 +86,33 @@ import ChartComponent from './ChartComponent.vue'
                 })
             },
             partDelete(id) {
-                console.log('delete'+id);
+                swal({
+                    title: 'Are you sure?',
+                    text: "If it's last keyword in project, project will be deleted. You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                    if (result.value) {
+                        //delete request
+                        axios.delete('/api/part/'+id)
+                        .then((res)=>{
+                                swal(
+                                'Deleted!',
+                                res.data.message,
+                                'success'
+                                );
+                                this.loadParts();
+                                console.log( res.data.message);
+
+                        }).catch(()=>{
+                            swal('Fail!', 'Something Wrong.', 'warning')
+                        })
+                    }
+                })
+
             }
         },
         components:{ChartComponent}

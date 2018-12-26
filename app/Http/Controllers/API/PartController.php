@@ -99,6 +99,24 @@ class PartController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $part = Part::find($id);
+        $allParts = Part::get()->where("site_id", $part->site_id);
+        if (count($allParts) > 1){
+            $part->delete();
+            return ['message' => 'This Part has been deleted'];
+        }
+        else{
+            $site = Site::get()->where("id", $part->site_id);
+            $part->delete();
+            $site[0]->delete();
+            return ['message' => 'This Part and Site has been deleted'];
+        }
+
+
+
+        // $part->delete();
+
+
+        // return ['message' => 'Part was deleted'];
     }
 }

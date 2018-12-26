@@ -15,23 +15,21 @@
               <div class="card-body table-responsive p-0">
                 <table class="table table-hover">
                   <tbody>
-                    <tr class="site_data">
+                    <tr class="site_data" v-if="sites.length>1">
                         <th>ID</th>
                         <th>URL</th>
                         <th>Keywords</th>
                         <th>Depth</th>
                         <th>Update Freq</th>
-                        <th>Current Position</th>
                         <th>Last check date</th>
                         <th>Modify</th>
-                  </tr>
+                  </tr >
                    <tr v-for="site in sites" :key="site.id" class="site_data">
                         <td>{{site.id}}</td>
                         <td> <a href="" @click.prevent="getThisSite(site.id)">{{site.domain}}</a> </td>
                         <td>{{site.keywords}}</td>
                         <td>{{site.depth}}</td>
                         <td>{{site.frequency}}</td>
-                        <td>{{site.position}}</td>
                         <td>{{site.updated_at | dateFormat}}</td>
                        <td>
                             <a href="">
@@ -40,6 +38,11 @@
                             <a href="" @click.prevent="deleteSite(site.id)">
                                 <i class="fa fa-trash" style="color:red"></i>
                             </a>
+                        </td>
+                   </tr>
+                   <tr v-if="sites.length<1">
+                       <td>
+                            <h2>Create your first project</h2>
                         </td>
                    </tr>
                 </tbody></table>
@@ -212,10 +215,10 @@
                         if (result.value) {
                             //delete request
                             axios.delete('api/site/'+id)
-                            .then(()=>{
+                            .then((res)=>{
                                     swal(
                                     'Deleted!',
-                                    'Your file has been deleted.',
+                                    res.data.message,
                                     'success'
                                     )
                                 Fire.$emit('AfterCreate')
