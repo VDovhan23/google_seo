@@ -14,6 +14,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
    {{--CSS--}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('mycss')
 
 
     <!-- Theme style -->

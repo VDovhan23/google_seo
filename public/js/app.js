@@ -68903,19 +68903,19 @@ if (false) {
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(181)
+  __webpack_require__(210)
 }
 var normalizeComponent = __webpack_require__(3)
 /* script */
 var __vue_script__ = __webpack_require__(183)
 /* template */
-var __vue_template__ = __webpack_require__(189)
+var __vue_template__ = __webpack_require__(212)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = null
+var __vue_scopeId__ = "data-v-59cc4a25"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -68948,46 +68948,8 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 181 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(182);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(6)("ce429016", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-59cc4a25\",\"scoped\":false,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ShowComponent.vue", function() {
-     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-59cc4a25\",\"scoped\":false,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ShowComponent.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 182 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(5)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.show_link{\n    text-decoration: none;\n}\n/* .showGraph{\n    display: block;\n} */\n.hideGraph{\n    display: none;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 181 */,
+/* 182 */,
 /* 183 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -68995,6 +68957,19 @@ exports.push([module.i, "\n.show_link{\n    text-decoration: none;\n}\n/* .showG
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ChartComponent_vue__ = __webpack_require__(139);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ChartComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ChartComponent_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -69069,6 +69044,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 // }
             });
         },
+        getDifference: function getDifference(data) {
+            var split = data.split(',');
+            var last = split[split.length - 1];
+            var previus = split[split.length - 2];
+            var diff = previus - last;
+            var plus = null;
+            if (diff > 0) {
+                var plus = 'true';
+            } else if (diff == 0) {
+                var plus = "null";
+            } else {
+                var plus = 'false';
+            }
+            return [last, diff, plus];
+        },
         showPartInfo: function showPartInfo(id) {
             var part = this.parts[id - 1];
             if ($('#graph' + part.id).hasClass('hideGraph')) {
@@ -69084,6 +69074,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.put('/api/part/' + id, { position: singlePart.position, keyword: singlePart.keyword, date: singlePart.date, site_id: singlePart.site_id }).then(function (res) {
                 console.log(res);
             });
+            location.reload();
         },
         partDelete: function partDelete(id) {
             var _this2 = this;
@@ -69148,7 +69139,7 @@ exports = module.exports = __webpack_require__(5)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -69200,7 +69191,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         style: {
                             color: '#000',
                             fontSize: '14px'
-                        }
+                        },
+                        type: 'datetime'
                     },
                     categories: []
                 },
@@ -69216,7 +69208,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 },
                 plotOptions: {},
                 series: [{
-                    name: 'Keyword position',
+                    name: this.part.domain, // імя сайту, потім будуть конкуренти
                     data: []
                 }],
                 background: 'rgba(244,67,54,1)'
@@ -69273,155 +69265,7 @@ if (false) {
 }
 
 /***/ }),
-/* 189 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-12  mt-3" }, [
-        _c("div", { staticClass: "card card-default" }, [
-          _c("div", { staticClass: "card-body table-responsive p-0" }, [
-            _c(
-              "table",
-              { staticClass: "table table-hover" },
-              [
-                _vm._m(0),
-                _vm._v(" "),
-                _vm._l(_vm.parts, function(part) {
-                  return _c(
-                    "tbody",
-                    { key: part.id, staticClass: "site_data" },
-                    [
-                      _c("tr", [
-                        _c("td", [_vm._v(_vm._s(part.id))]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c(
-                            "a",
-                            {
-                              staticClass: "show_link",
-                              attrs: { href: "" },
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  _vm.showPartInfo(part.id)
-                                }
-                              }
-                            },
-                            [_vm._v(_vm._s(part.keyword))]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(part.domain))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(part.position))]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _vm._v(_vm._s(_vm._f("dateFormat")(part.updated_at)))
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(part.competitor))]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-success",
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  _vm.manualUpdate(part.id)
-                                }
-                              }
-                            },
-                            [_vm._v("Update now")]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-danger",
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  _vm.partDelete(part.id)
-                                }
-                              }
-                            },
-                            [_vm._v("Delete")]
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "tr",
-                        {
-                          staticClass: "hideGraph",
-                          attrs: { id: "graph" + part.id }
-                        },
-                        [
-                          _c(
-                            "td",
-                            { attrs: { colspan: "8" } },
-                            [_c("chart-component", { attrs: { part: part } })],
-                            1
-                          )
-                        ]
-                      )
-                    ]
-                  )
-                })
-              ],
-              2
-            )
-          ])
-        ])
-      ])
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", { staticClass: "site_data" }, [
-        _c("th", [_vm._v("ID")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Keyword")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("URL")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Positions history")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Last check date")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Competitor")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Update info")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Delete")])
-      ])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-59cc4a25", module.exports)
-  }
-}
-
-/***/ }),
+/* 189 */,
 /* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -72299,6 +72143,281 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 195 */,
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */,
+/* 202 */,
+/* 203 */,
+/* 204 */,
+/* 205 */,
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */,
+/* 210 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(211);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(6)("484eff8c", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-59cc4a25\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ShowComponent.vue", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-59cc4a25\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ShowComponent.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 211 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(5)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.show_link[data-v-59cc4a25]{\n    text-decoration: none;\n}\n/* .showGraph{\n    display: block;\n} */\n.hideGraph[data-v-59cc4a25]{\n    display: none;\n}\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 212 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-md-12  mt-3" }, [
+        _c("div", { staticClass: "card card-default" }, [
+          _c("div", { staticClass: "card-body table-responsive p-0" }, [
+            _c(
+              "table",
+              { staticClass: "table table-hover" },
+              [
+                _vm._m(0),
+                _vm._v(" "),
+                _vm._l(_vm.parts, function(part) {
+                  return _c(
+                    "tbody",
+                    { key: part.id, staticClass: "site_data" },
+                    [
+                      _c("tr", [
+                        _c("td", [_vm._v(_vm._s(part.id))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "show_link",
+                              attrs: { href: "" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.showPartInfo(part.id)
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(part.keyword))]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(part.domain))]),
+                        _vm._v(" "),
+                        _c("td", { staticStyle: { "max-width": "200px" } }, [
+                          _vm.getDifference(part.position)[2] == "null"
+                            ? _c("span", [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(
+                                      _vm.getDifference(part.position)[0]
+                                    ) +
+                                    "\n                                "
+                                ),
+                                _vm._m(1, true)
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.getDifference(part.position)[2] == "false"
+                            ? _c("span", [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(
+                                      _vm.getDifference(part.position)[0]
+                                    ) +
+                                    "\n                                 "
+                                ),
+                                _c(
+                                  "span",
+                                  { staticClass: "text-danger mr-1" },
+                                  [
+                                    _c("i", {
+                                      staticClass: "fa fa-arrow-down"
+                                    }),
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm.getDifference(part.position)[1]
+                                      )
+                                    )
+                                  ]
+                                )
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.getDifference(part.position)[2] == "true"
+                            ? _c("span", [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(
+                                      _vm.getDifference(part.position)[0]
+                                    ) +
+                                    "\n                                "
+                                ),
+                                _c(
+                                  "span",
+                                  { staticClass: "text-success mr-1" },
+                                  [
+                                    _c("i", { staticClass: "fa fa-arrow-up" }),
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm.getDifference(part.position)[1]
+                                      )
+                                    )
+                                  ]
+                                )
+                              ])
+                            : _vm._e()
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(_vm._s(_vm._f("dateFormat")(part.updated_at)))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(part.competitor))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-success",
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.manualUpdate(part.id)
+                                }
+                              }
+                            },
+                            [_vm._v("Update now")]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-danger",
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.partDelete(part.id)
+                                }
+                              }
+                            },
+                            [_vm._v("Delete")]
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "tr",
+                        {
+                          staticClass: "hideGraph",
+                          attrs: { id: "graph" + part.id }
+                        },
+                        [
+                          _c(
+                            "td",
+                            { attrs: { colspan: "8" } },
+                            [_c("chart-component", { attrs: { part: part } })],
+                            1
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                })
+              ],
+              2
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", { staticClass: "site_data" }, [
+        _c("th", [_vm._v("ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Keyword")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("URL")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Current Position")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Last check date")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Competitor")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Update info")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Delete")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "text-primary mr-1" }, [
+      _c("i", { staticClass: "fa fa-minus" })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-59cc4a25", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

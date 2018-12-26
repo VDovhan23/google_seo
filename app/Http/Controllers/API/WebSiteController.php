@@ -47,7 +47,6 @@ class WebSiteController extends Controller
         $site->keywords = $request['keywords'];
         $site->depth = $request['depth'];
         $site->frequency = $request['frequency'];
-        $site->date = date("d:m:Y"); // буде дата останнього оновелння
         if (!empty(Site::all()->last()->id)) {
             $partId = Site::all()->last()->id+1;
         }else{

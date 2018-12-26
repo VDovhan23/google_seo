@@ -39,7 +39,8 @@ import {Chart} from 'highcharts-vue'
                             style: {
                                 color: '#000',
                                 fontSize: '14px',
-                            }
+                            },
+                            type: 'datetime'
                         },
                         categories: []
                     },
@@ -57,7 +58,7 @@ import {Chart} from 'highcharts-vue'
 
                     },
                      series: [{
-                        name: 'Keyword position',
+                        name: this.part.domain, // імя сайту, потім будуть конкуренти
                         data: []
                     }],
                     background: 'rgba(244,67,54,1)'
@@ -86,4 +87,3 @@ import {Chart} from 'highcharts-vue'
 
 </style>
 
-w

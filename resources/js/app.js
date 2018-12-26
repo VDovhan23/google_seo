@@ -28,6 +28,7 @@ let routes = [
         return moment(date).format('MMMM Do YYYY h:mm');
   });
 
+
   import Swal from 'sweetalert2'
   window.swal = Swal;
 

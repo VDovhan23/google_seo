@@ -54,7 +54,7 @@ class PartController extends Controller
         $part = Part::find($id);
         $currentSite = Site::get()->where('id', $request['site_id']);
         $part->position = $part->position . ','. rand(1, 50). ','. rand(1, 50); // for graph test
-        $part->date = $part->date . ','. date("d:m:Y"). ','. date("d:m:Y"); // for graph test
+        $part->date = $part->date . ','. date("d:m:Y h:i"). ','. date("d:m:Y h:i"); // for graph test
         // $part->position = $part->position . $this->site_info($domain, $keyword, $depth);
         $part->save();
         return $part;

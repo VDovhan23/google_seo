@@ -17,9 +17,9 @@ class CreatePartsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('site_id');
             $table->string('domain');
-            $table->string('keyword');
+            $table->text('keyword');
             $table->string('position');
-            $table->string('date');
+            $table->text('date');
             $table->string('competitor')->nullable();
             $table->timestamps();
         });

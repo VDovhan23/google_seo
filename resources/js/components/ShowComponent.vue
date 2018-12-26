@@ -10,7 +10,7 @@
                         <th>ID</th>
                         <th>Keyword</th>
                         <th>URL</th>
-                        <th>Positions history</th>
+                        <th>Current Position</th>
                         <th>Last check date</th>
                         <th>Competitor</th>
                         <th>Update info</th>
@@ -22,7 +22,20 @@
                         <td>{{part.id}}</td>
                         <td><a class="show_link" href="" @click.prevent="showPartInfo(part.id)">{{part.keyword}}</a></td>
                         <td>{{part.domain}}</td>
-                        <td>{{part.position}}</td>
+                        <td style="max-width: 200px;">
+                            <span v-if="getDifference(part.position)[2]=='null'">
+                                    {{getDifference(part.position)[0]}}
+                                    <span class="text-primary mr-1"> <i class="fa fa-minus"></i></span>
+                            </span>
+                            <span v-if="getDifference(part.position)[2]=='false'">
+                                    {{getDifference(part.position)[0]}}
+                                     <span class="text-danger mr-1"> <i class="fa fa-arrow-down"></i>{{getDifference(part.position)[1]}}</span>
+                            </span>
+                            <span v-if="getDifference(part.position)[2]=='true'">
+                                    {{getDifference(part.position)[0]}}
+                                    <span class="text-success mr-1"> <i class="fa fa-arrow-up"></i>{{getDifference(part.position)[1]}}</span>
+                            </span>
+                        </td>
                         <td>{{part.updated_at | dateFormat}}</td>
                         <td>{{part.competitor}}</td>
                         <td><button class="btn btn-success" @click.prevent="manualUpdate(part.id)">Update now</button></td>
@@ -51,11 +64,12 @@ import ChartComponent from './ChartComponent.vue'
        created() {
             this.loadParts();
         },
+
         data() {
             return {
                 parts:[],
                 id: this.$route.params.id,
-                isActive: false
+                isActive: false,
             }
         },
         methods: {
@@ -66,6 +80,23 @@ import ChartComponent from './ChartComponent.vue'
                     //     this.parts[i].open = false;
                     // }
                 })
+            },
+            getDifference(data){
+                var split = data.split(',')
+                var last = split[split.length-1];
+                var previus = split[split.length-2];
+                var diff = previus - last;
+                var plus = null;
+                if (diff > 0){
+                    var plus = 'true';
+                }
+                else if (diff == 0) {
+                     var plus = "null"
+                }
+                else{
+                    var plus = 'false';
+                }
+                return [last ,diff, plus];
             },
             showPartInfo(id){
                 var part = this.parts[id-1];
@@ -84,6 +115,7 @@ import ChartComponent from './ChartComponent.vue'
                 .then((res)=>{
                     console.log(res);
                 })
+                location.reload();
             },
             partDelete(id) {
                 swal({
@@ -118,7 +150,7 @@ import ChartComponent from './ChartComponent.vue'
         components:{ChartComponent}
     }
 </script>
-<style>
+<style scoped>
     .show_link{
         text-decoration: none;
     }
@@ -128,4 +160,5 @@ import ChartComponent from './ChartComponent.vue'
     .hideGraph{
         display: none;
     }
+
 </style>
