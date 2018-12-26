@@ -20,7 +20,6 @@ class CreatePartsTable extends Migration
             $table->text('keyword');
             $table->string('position');
             $table->text('date');
-            $table->string('competitor')->nullable();
             $table->timestamps();
         });
     }

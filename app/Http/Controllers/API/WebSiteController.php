@@ -92,7 +92,8 @@ class WebSiteController extends Controller
             }
             $i= $i+10;
         }
-//        pre($search_results);
+    //    pre($search_results);
+    //    exit;
 
         foreach ($search_results as $k=>$v){
             if (preg_match('|'.$url.'|', $v->link)) { // зробити гарну регулярку для всіх випадків (http://, https://, http://www., https://www. ... )
@@ -156,18 +157,20 @@ class WebSiteController extends Controller
     public function update(Request $request, $id)
     {
         $site = Site::find($id);
-        $site->user_id = $request['user_id'];
-        $site->domain = $request['url'];
-        $site->keywords = $request['keywords'];
-        $site->depth = $request['depth'];
-        $site->frequency = $request['frequency'];
+        // $site->domain = $request['url'];
+        // $site->keywords = $request['keywords'];
+        // $site->depth = $request['depth'];
+        // $site->frequency = $request['frequency'];
 
-        $info = $this->site_info($request['url'], $request['keywords'], $request['depth']);
-        $request['competitor'] ? $site->competitor = $request['competitor'] : $site->competitor = "-";
+        // $info = $this->site_info($request['url'], $request['keywords'], $request['depth']);
+        // $info = 2;
+        // $request['competitor'] ? $site->competitor = $request['competitor'] : $site->competitor = "-";
+        // $site->competitor = '-';
 
-        $site->save();
+        // $site->save();
+        return $site;
 
-        return ['message' => 'Site was updated'];
+        // return ['message' => 'Site was updated'];
     }
 
 

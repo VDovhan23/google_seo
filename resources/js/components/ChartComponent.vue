@@ -15,15 +15,19 @@ import {Chart} from 'highcharts-vue'
         return {
                 position: [],
                 date: [],
-                chartStyle:{
 
-                },
                 chartOptions: {
                     chart: {
+                        styledMode: false,
                         width: 991,
                         backgroundColor: 'rgba(55,71,79,0.05)',
                         type: 'area',
                         zoomType: 'x',
+                    },
+                    navigation: {
+                        buttonOptions: {
+                            enabled: true
+                        }
                     },
                     title: {
                         text: this.part.keyword + ' Tracking history',
@@ -36,11 +40,7 @@ import {Chart} from 'highcharts-vue'
                     xAxis: {
                         crosshair: true,
                          labels: {
-                            style: {
-                                color: '#000',
-                                fontSize: '14px',
-                            },
-                            type: 'datetime'
+                         type: 'datetime'
                         },
                         categories: []
                     },
@@ -48,7 +48,7 @@ import {Chart} from 'highcharts-vue'
                         crosshair: true,
                          labels: {
                             style: {
-                                color: '#000',
+                                color: 'rgba(55,71,79,0.05)',
                                 fontSize: '14px',
                             }
                         },
@@ -84,6 +84,8 @@ import {Chart} from 'highcharts-vue'
     }
 </script>
 <style scoped>
+
+/* @import 'https://code.highcharts.com/css/highcharts.css'; if style mode true */
 
 </style>
 

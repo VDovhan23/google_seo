@@ -1,8 +1,16 @@
 <template>
     <div class="container">
         <div class="row justify-content-center">
+
             <div class="col-md-12  mt-3">
                 <div class="card card-default">
+                      <!-- <div class="card-header"> -->
+                <!-- <h3 class="card-title">My Projects</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-success" id="add_keyword"  >Add New <i class="fas fa-plus"></i></button>
+                </div>-->
+              </div>
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover">
                     <thead>
@@ -29,11 +37,11 @@
                             </span>
                             <span v-if="getDifference(part.position)[2]=='false'">
                                     {{getDifference(part.position)[0]}}
-                                     <span class="text-danger mr-1"> <i class="fa fa-arrow-down"></i>{{getDifference(part.position)[1]}}</span>
+                                     <span class="text-danger mr-1" v-if="getDifference(part.position)[1] "> <i class="fa fa-arrow-down"></i>{{getDifference(part.position)[1]}}</span>
                             </span>
                             <span v-if="getDifference(part.position)[2]=='true'">
                                     {{getDifference(part.position)[0]}}
-                                    <span class="text-success mr-1"> <i class="fa fa-arrow-up"></i>{{getDifference(part.position)[1]}}</span>
+                                    <span class="text-success mr-1" v-if="getDifference(part.position)[1] "> <i class="fa fa-arrow-up"></i>{{getDifference(part.position)[1]}}</span>
                             </span>
                         </td>
                         <td>{{part.updated_at | dateFormat}}</td>
@@ -68,17 +76,13 @@ import ChartComponent from './ChartComponent.vue'
         data() {
             return {
                 parts:[],
-                id: this.$route.params.id,
-                isActive: false,
+                id: this.$route.params.id
             }
         },
         methods: {
             loadParts(){
                 axios.get('get_site/'+this.id).then(({data})=> {
                     this.parts = data
-                    // for(var i=0; i< this.parts.length; i++){
-                    //     this.parts[i].open = false;
-                    // }
                 })
             },
             getDifference(data){
@@ -86,7 +90,7 @@ import ChartComponent from './ChartComponent.vue'
                 var last = split[split.length-1];
                 var previus = split[split.length-2];
                 var diff = previus - last;
-                var plus = null;
+                var plus = 'null';
                 if (diff > 0){
                     var plus = 'true';
                 }
@@ -137,8 +141,6 @@ import ChartComponent from './ChartComponent.vue'
                                 'success'
                                 );
                                 this.loadParts();
-                                console.log( res.data.message);
-
                         }).catch(()=>{
                             swal('Fail!', 'Something Wrong.', 'warning')
                         })
@@ -154,9 +156,7 @@ import ChartComponent from './ChartComponent.vue'
     .show_link{
         text-decoration: none;
     }
-    /* .showGraph{
-        display: block;
-    } */
+
     .hideGraph{
         display: none;
     }

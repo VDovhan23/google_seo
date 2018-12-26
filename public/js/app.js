@@ -69017,6 +69017,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -69026,8 +69034,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             parts: [],
-            id: this.$route.params.id,
-            isActive: false
+            id: this.$route.params.id
         };
     },
 
@@ -69039,9 +69046,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var data = _ref.data;
 
                 _this.parts = data;
-                // for(var i=0; i< this.parts.length; i++){
-                //     this.parts[i].open = false;
-                // }
             });
         },
         getDifference: function getDifference(data) {
@@ -69049,7 +69053,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var last = split[split.length - 1];
             var previus = split[split.length - 2];
             var diff = previus - last;
-            var plus = null;
+            var plus = 'null';
             if (diff > 0) {
                 var plus = 'true';
             } else if (diff == 0) {
@@ -69093,7 +69097,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     axios.delete('/api/part/' + id).then(function (res) {
                         swal('Deleted!', res.data.message, 'success');
                         _this2.loadParts();
-                        console.log(res.data.message);
                     }).catch(function () {
                         swal('Fail!', 'Something Wrong.', 'warning');
                     });
@@ -69139,7 +69142,7 @@ exports = module.exports = __webpack_require__(5)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* @import 'https://code.highcharts.com/css/highcharts.css'; if style mode true */\n\n", ""]);
 
 // exports
 
@@ -69169,13 +69172,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             position: [],
             date: [],
-            chartStyle: {},
+
             chartOptions: {
                 chart: {
+                    styledMode: false,
                     width: 991,
                     backgroundColor: 'rgba(55,71,79,0.05)',
                     type: 'area',
                     zoomType: 'x'
+                },
+                navigation: {
+                    buttonOptions: {
+                        enabled: true
+                    }
                 },
                 title: {
                     text: this.part.keyword + ' Tracking history',
@@ -69188,10 +69197,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 xAxis: {
                     crosshair: true,
                     labels: {
-                        style: {
-                            color: '#000',
-                            fontSize: '14px'
-                        },
                         type: 'datetime'
                     },
                     categories: []
@@ -69200,7 +69205,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     crosshair: true,
                     labels: {
                         style: {
-                            color: '#000',
+                            color: 'rgba(55,71,79,0.05)',
                             fontSize: '14px'
                         }
                     }
@@ -72194,7 +72199,7 @@ exports = module.exports = __webpack_require__(5)(false);
 
 
 // module
-exports.push([module.i, "\n.show_link[data-v-59cc4a25]{\n    text-decoration: none;\n}\n/* .showGraph{\n    display: block;\n} */\n.hideGraph[data-v-59cc4a25]{\n    display: none;\n}\n\n", ""]);
+exports.push([module.i, "\n.show_link[data-v-59cc4a25]{\n    text-decoration: none;\n}\n.hideGraph[data-v-59cc4a25]{\n    display: none;\n}\n\n", ""]);
 
 // exports
 
@@ -72210,65 +72215,60 @@ var render = function() {
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row justify-content-center" }, [
       _c("div", { staticClass: "col-md-12  mt-3" }, [
-        _c("div", { staticClass: "card card-default" }, [
-          _c("div", { staticClass: "card-body table-responsive p-0" }, [
-            _c(
-              "table",
-              { staticClass: "table table-hover" },
-              [
-                _vm._m(0),
-                _vm._v(" "),
-                _vm._l(_vm.parts, function(part) {
-                  return _c(
-                    "tbody",
-                    { key: part.id, staticClass: "site_data" },
-                    [
-                      _c("tr", [
-                        _c("td", [_vm._v(_vm._s(part.id))]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c(
-                            "a",
-                            {
-                              staticClass: "show_link",
-                              attrs: { href: "" },
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  _vm.showPartInfo(part.id)
-                                }
-                              }
-                            },
-                            [_vm._v(_vm._s(part.keyword))]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(part.domain))]),
-                        _vm._v(" "),
-                        _c("td", { staticStyle: { "max-width": "200px" } }, [
-                          _vm.getDifference(part.position)[2] == "null"
-                            ? _c("span", [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(
-                                      _vm.getDifference(part.position)[0]
-                                    ) +
-                                    "\n                                "
-                                ),
-                                _vm._m(1, true)
-                              ])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.getDifference(part.position)[2] == "false"
-                            ? _c("span", [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(
-                                      _vm.getDifference(part.position)[0]
-                                    ) +
-                                    "\n                                 "
-                                ),
-                                _c(
+        _c("div", { staticClass: "card card-default" }),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body table-responsive p-0" }, [
+          _c(
+            "table",
+            { staticClass: "table table-hover" },
+            [
+              _vm._m(0),
+              _vm._v(" "),
+              _vm._l(_vm.parts, function(part) {
+                return _c("tbody", { key: part.id, staticClass: "site_data" }, [
+                  _c("tr", [
+                    _c("td", [_vm._v(_vm._s(part.id))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "show_link",
+                          attrs: { href: "" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.showPartInfo(part.id)
+                            }
+                          }
+                        },
+                        [_vm._v(_vm._s(part.keyword))]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(part.domain))]),
+                    _vm._v(" "),
+                    _c("td", { staticStyle: { "max-width": "200px" } }, [
+                      _vm.getDifference(part.position)[2] == "null"
+                        ? _c("span", [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.getDifference(part.position)[0]) +
+                                "\n                                "
+                            ),
+                            _vm._m(1, true)
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.getDifference(part.position)[2] == "false"
+                        ? _c("span", [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.getDifference(part.position)[0]) +
+                                "\n                                 "
+                            ),
+                            _vm.getDifference(part.position)[1]
+                              ? _c(
                                   "span",
                                   { staticClass: "text-danger mr-1" },
                                   [
@@ -72282,19 +72282,19 @@ var render = function() {
                                     )
                                   ]
                                 )
-                              ])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.getDifference(part.position)[2] == "true"
-                            ? _c("span", [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(
-                                      _vm.getDifference(part.position)[0]
-                                    ) +
-                                    "\n                                "
-                                ),
-                                _c(
+                              : _vm._e()
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.getDifference(part.position)[2] == "true"
+                        ? _c("span", [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.getDifference(part.position)[0]) +
+                                "\n                                "
+                            ),
+                            _vm.getDifference(part.position)[1]
+                              ? _c(
                                   "span",
                                   { staticClass: "text-success mr-1" },
                                   [
@@ -72306,71 +72306,70 @@ var render = function() {
                                     )
                                   ]
                                 )
-                              ])
-                            : _vm._e()
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _vm._v(_vm._s(_vm._f("dateFormat")(part.updated_at)))
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(part.competitor))]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-success",
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  _vm.manualUpdate(part.id)
-                                }
-                              }
-                            },
-                            [_vm._v("Update now")]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-danger",
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  _vm.partDelete(part.id)
-                                }
-                              }
-                            },
-                            [_vm._v("Delete")]
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
+                              : _vm._e()
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(_vm._s(_vm._f("dateFormat")(part.updated_at)))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(part.competitor))]),
+                    _vm._v(" "),
+                    _c("td", [
                       _c(
-                        "tr",
+                        "button",
                         {
-                          staticClass: "hideGraph",
-                          attrs: { id: "graph" + part.id }
+                          staticClass: "btn btn-success",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.manualUpdate(part.id)
+                            }
+                          }
                         },
-                        [
-                          _c(
-                            "td",
-                            { attrs: { colspan: "8" } },
-                            [_c("chart-component", { attrs: { part: part } })],
-                            1
-                          )
-                        ]
+                        [_vm._v("Update now")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.partDelete(part.id)
+                            }
+                          }
+                        },
+                        [_vm._v("Delete")]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "tr",
+                    {
+                      staticClass: "hideGraph",
+                      attrs: { id: "graph" + part.id }
+                    },
+                    [
+                      _c(
+                        "td",
+                        { attrs: { colspan: "8" } },
+                        [_c("chart-component", { attrs: { part: part } })],
+                        1
                       )
                     ]
                   )
-                })
-              ],
-              2
-            )
-          ])
+                ])
+              })
+            ],
+            2
+          )
         ])
       ])
     ])
